@@ -57,7 +57,7 @@ touch orario.txt data.txt temp2.txt rh2.txt uwind2.txt vwind2.txt pres.txt pres2
 touch rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt
 
 #echo '\n' | gawk '{printf "\n"}' > temp.txt
-././wgrib -s $1 | grep ":TMP:" | ./wgrib -i -text $1 -o out.txt	#sono in gradi Kelvin (occorre sottrarre 273)
+wgrib -s $1 | grep ":TMP:" | wgrib -i -text $1 -o out.txt	#sono in gradi Kelvin (occorre sottrarre 273)
 date +%d/%m/%Y -d "+1 days" >> data.txt
 echo -e "2\n3\n4" >>  data.txt
 date +%d/%m/%Y -d "+2 days" >> data.txt
@@ -69,40 +69,40 @@ echo -e "2\n3\n4" >>  data.txt
 date +%d/%m/%Y -d "+5 days" >> data.txt
 echo -e "2\n3\n4" >>  data.txt
 awk '{print $1,$2,$3,$4,$5}' OFS="|" data.txt > data.xls
-orario=$(./wgrib -s $1 | cut -d':' -f6 | cut -d ' ' -f1 | head -23)
+orario=$(wgrib -s $1 | cut -d':' -f6 | cut -d ' ' -f1 | head -23)
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > temp.txt
 #echo ";" + $data ";" > temp.txt
 for i in $(cat temp.txt); do $(echo $data >> data.txt); done
 echo $orario | tr ' ' '\n' | head -n 21 > orario.txt
 for i in $(cat temp.txt); do $(echo ${i} | gawk '{printf "%.0f\n",$1 -273.15}' >> temp2.txt); done
-./wgrib -s $1 | grep ":CAPE:" | ./wgrib -i -text $1 -o out.txt
+wgrib -s $1 | grep ":CAPE:" | wgrib -i -text $1 -o out.txt
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > cape.txt
 for i in $(cat cape.txt); do $(echo ${i} | gawk '{printf "%.0f\n",$1}' >> cape2.txt); done
-./wgrib -s $1 | grep ":PRMSL:" | ./wgrib -i -text $1 -o out.txt
+wgrib -s $1 | grep ":PRMSL:" | wgrib -i -text $1 -o out.txt
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--'  | tail -n 21 > pres.txt
 for i in $(cat pres.txt); do $(echo ${i} | gawk '{printf "%.0f\n",$1/100}' >> pres2.txt); done
-./wgrib -s $1 | grep ":RH:" | ./wgrib -i -text $1 -o out.txt
+wgrib -s $1 | grep ":RH:" | wgrib -i -text $1 -o out.txt
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > rh.txt
 for i in $(cat rh.txt); do $(echo ${i} | gawk '{printf "%.0f\n",$1}' >> rh2.txt); done
-./wgrib -s $1 | grep ":APCP:" | ./wgrib -i -text $1 -o out.txt	#sono mm pioggia accumulata
+wgrib -s $1 | grep ":APCP:" | wgrib -i -text $1 -o out.txt	#sono mm pioggia accumulata
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | head -n 21 > rainAcc.txt
 for i in $(cat rainAcc.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1}' | tr '.' ',' >> rainAcc2.txt); done
-./wgrib -s $1 | grep ":HGT:" | ./wgrib -i -text $1 -o out.txt
+wgrib -s $1 | grep ":HGT:" | wgrib -i -text $1 -o out.txt
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > geop500.txt
 for i in $(cat geop500.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1}' | tr '.' ',' >> geop5002.txt); done
-./wgrib -s $1 | grep ":UGRD:" | ./wgrib -i -text $1 -o out.txt	#sono in m/s
+wgrib -s $1 | grep ":UGRD:" | wgrib -i -text $1 -o out.txt	#sono in m/s
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > uwind.txt
 for i in $(cat uwind.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1*3.6}' >> uwind2.txt); done
-./wgrib -s $1 | grep ":VGRD:" | ./wgrib -i -text $1 -o out.txt	#sono in m/s
+wgrib -s $1 | grep ":VGRD:" | wgrib -i -text $1 -o out.txt	#sono in m/s
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > vwind.txt
 for i in $(cat vwind.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1*3.6}' >> vwind2.txt); done
-./wgrib -s $1 | grep ":LFTX:" | ./wgrib -i -text $1 -o out.txt
+wgrib -s $1 | grep ":LFTX:" | wgrib -i -text $1 -o out.txt
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > li.txt
 for i in $(cat li.txt); do $(echo ${i} | tr '.' ',' >> li2.txt); done
-./wgrib -s $1 | grep ":PRATE:" | ./wgrib -i -text $1 -o out.txt	# si riferisce alla raffica
+wgrib -s $1 | grep ":PRATE:" | wgrib -i -text $1 -o out.txt	# si riferisce alla raffica
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | head -n 21 > rainRate.txt
 for i in $(cat rainRate.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1}' | tr '.' ',' >> rainRate2.txt); done
-./wgrib -s $1 | grep ":TCDC:" | ./wgrib -i -text $1 -o out.txt
+wgrib -s $1 | grep ":TCDC:" | wgrib -i -text $1 -o out.txt
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > cloudCover.txt
 for i in $(cat cloudCover.txt); do $(echo ${i} | gawk '{printf "%.0f\n",$1}' >> cloudCover2.txt); done
 paste uwind2.txt vwind2.txt | gawk '{print (sqrt($1*$1 + $2*$2)), $3}' >> wind2.txt  # calcolo potenza del vento
