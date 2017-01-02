@@ -1,1 +1,1 @@
-Data;Orario;Temperature;Umidita';Pressione;Geop500;Copertura;Pioggia;Pioggia Acc.;CAPE;LI;Wind;Wind Dir.
+;Data;Orario;Temperature;Umidita';Pressione;Geop500;Copertura;Pioggia;Pioggia Acc.;CAPE;LI;Wind;Wind Dir.
