@@ -43,18 +43,16 @@
 # grep -A1 "5 5" --> grep -A1 "3 5" o "5 5"
 # grep -A1 "361 1" --> grep -A1 "361 1" o "361 1"
 
-rm prev.csv
-
 if [ $# -eq 0 ]; then
   echo "Inserisci il nome del file grb"
   exit 1
 fi
 
-rm prev.csv data.txt orario.txt temp2.txt rh2.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudClover.txt cloudCover2.txt rainAcc2.txt cape2.txt orario.txt
-rm rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt
+rm prev.csv prev.ods data.txt orario.txt temp2.txt rh2.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudClover.txt cloudCover2.txt rainAcc2.txt cape2.txt orario.txt
+rm rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt uwind22.txt vwind22.txt
 
 touch orario.txt data.txt temp2.txt rh2.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt orario.txt
-touch rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt
+touch rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt uwind22.txt vwind22.txt
 
 #echo '\n' | gawk '{printf "\n"}' > temp.txt
 wgrib -s $1 | grep ":TMP:" | wgrib -i -text $1 -o out.txt	#sono in gradi Kelvin (occorre sottrarre 273)
@@ -105,10 +103,27 @@ for i in $(cat rainRate.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1}' | tr 
 wgrib -s $1 | grep ":TCDC:" | wgrib -i -text $1 -o out.txt
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > cloudCover.txt
 for i in $(cat cloudCover.txt); do $(echo ${i} | gawk '{printf "%.0f\n",$1}' >> cloudCover2.txt); done
-paste uwind2.txt vwind2.txt | gawk '{print (sqrt($1*$1 + $2*$2)), $3}' >> wind2.txt  # calcolo potenza del vento
-paste uwind2.txt vwind2.txt | gawk '{print (atan2($1,$2)*57.3+180), $3}' >> wind2Dir.txt  # calcolo direzione del vento
 
-for i in $(cat wind2Dir.txt); do if [ ${i} > 100 ]; then echo "N">>wind3Dir.txt; fi; done
+# Gestione del vento
+for i in $(cat uwind2.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1}' >> uwind22.txt); done
+for i in $(cat vwind2.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1}' >> vwind22.txt); done
+paste uwind22.txt vwind22.txt | gawk '{print (sqrt($1*$1 + $2*$2)), $3}' >> wind2.txt  # calcolo potenza del vento
+paste uwind22.txt vwind22.txt | gawk '{print (atan2($1,$2)*57.3+180), $3}' >> wind2Dir.txt  # calcolo direzione del vento
+for i in $(cat wind2.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1}' >> wind2.txt); done
+for i in $(cat wind2Dir.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1}' >> wind2Dir.txt); done
+cat wind2.txt | tail -n 21 > wind22.txt
+cat wind22.txt > wind2.txt
+cat wind2Dir.txt | tail -n 21 > wind22Dir.txt
+cat wind22Dir.txt > wind2Dir.txt
+
+#for i in $(cat wind2Dir.txt); do if (( $(echo "$i > 342.5" | bc -l) || $(echo "$i < 22.5" | bc -l))); then echo "N">>wind3Dir.txt; fi; done
+#for i in $(cat wind2Dir.txt); do if (( $(echo "$i >= 22.5" | bc -l) || $(echo "$i < 67.5" | bc -l))); then echo "NE">>wind3Dir.txt; fi; done
+#for i in $(cat wind2Dir.txt); do if (( $(echo "$i >= 67.5" | bc -l) || $(echo "$i < 112.5" | bc -l))); then echo "E">>wind3Dir.txt; fi; done
+#for i in $(cat wind2Dir.txt); do if (( $(echo "$i >= 112.5" | bc -l) || $(echo "$i < 157.5" | bc -l))); then echo "SE">>wind3Dir.txt; fi; done
+#for i in $(cat wind2Dir.txt); do if (( $(echo "$i >= 157.5" | bc -l) || $(echo "$i < 202.5" | bc -l))); then echo "S">>wind3Dir.txt; fi; done
+#for i in $(cat wind2Dir.txt); do if (( $(echo "$i >= 202.5" | bc -l) || $(echo "$i < 247.5" | bc -l))); then echo "SW">>wind3Dir.txt; fi; done
+#for i in $(cat wind2Dir.txt); do if (( $(echo "$i >= 247.5" | bc -l) || $(echo "$i < 292.5" | bc -l))); then echo "W">>wind3Dir.txt; fi; done
+#for i in $(cat wind2Dir.txt); do if (( $(echo "$i >= 292.5" | bc -l) || $(echo "$i < 337.5" | bc -l))); then echo "NW">>wind3Dir.txt; fi; done
 
 paste -d';' colonne.txt data.txt orario.txt temp2.txt rh2.txt pres2.txt geop5002.txt cloudCover2.txt rainRate2.txt rainAcc2.txt cape2.txt li2.txt wind2.txt wind2Dir.txt> prev.csv
 # manipolo le prime due righe in modo da avere intestazione e righe di dati nell'ordine corretto
@@ -116,8 +131,8 @@ paste -d';' colonne.txt data.txt orario.txt temp2.txt rh2.txt pres2.txt geop5002
 # ho eliminato le colonne uwind2.txt vwind2.txt
 
 riga2=$(cat prev.csv | head -1)
-riga1=${riga2:0:96}
-riga2=${riga2:96:${#riga2}}
+riga1=${riga2:0:105}
+riga2=${riga2:105:${#riga2}}
 
 # inserisco le prime due righe e rimuovo le vecchie due righe che erano divenute la terza e la quarta (le elimino)
 sed -i "1 i $riga1" prev.csv
@@ -127,7 +142,7 @@ sed -i '3 d' prev.csv
 tabs 2
 INPUT=prev.csv
 IFS=';'
-[ ! -f $INPUT ] && { echo "$INPUT file not found"; exit 96; }
+[ ! -f $INPUT ] && { echo "$INPUT file not found"; exit 105; }
 while read vv data orario temp hum uwind vwind press geop500 cloud rainRate rainAcc cape li wind windDir
 do
   echo -e "$vv $data $orario $temp $hum $press $geop500 $cloud $rainRate $rainAcc $cape $li $windp $windDir"
@@ -138,6 +153,6 @@ IFS=$OLDIFS
 # take only first 21 rows
 cat prev.csv | head -n 21 > tmp.txt
 # eliminate the first column contains ';' char
-cut -d';' -f2-16 tmp.txt > prev.xls
+cut -d';' -f2-16 tmp.txt > prev.ods
 # remove temporary file
 rm tmp.txt
