@@ -1,0 +1,13 @@
+;Data;Orario;Temperatura (°C);Umidita (%);Nuvolosita;Pioggia (intensita);Vento (direzione);Vento (intensita);Nebbia (Intensita)
+;29/06/2017;ore 0;25;75;Sereno;-;Sud (Ostro);Brezza tesa;-
+; ;ore 6;29;50;Sereno;-;Sud (Ostro);Brezza leggera;-
+; ;ore 12;36;25;Poco Nuvoloso;-;Sud (Ostro);Brezza tesa;-
+; ;ore 18;28;49;Molto Nuvoloso;-;Sud (Ostro);Brezza tesa;-
+;30/06/2017;ore 0;26;62;Sereno;-;Sud (Ostro);Vento moderato;-
+; ;ore 6;29;55;Sereno;-;Sud (Ostro);Vento moderato;-
+; ;ore 12;38;24;Sereno;-;Sud-Ovest (Libeccio);Brezza tesa;-
+; ;ore 18;29;61;Sereno;-;Sud (Ostro);Brezza tesa;-
+;01/07/2017;ore 0;25;77;Sereno;-;Sud-Est (Scirocco);Brezza tesa;Nebbia leggera
+; ;ore 6;29;60;Sereno;-;Sud-Est (Scirocco);Brezza tesa;-
+; ;ore 12;38;29;Sereno;-;Sud (Ostro);Brezza tesa;-
+; ;ore 18;29;53;Sereno;-;Sud (Ostro);Vento moderato;-

@@ -1,0 +1,4 @@
+./convert.sh file.xls > file.html
+html2ps file.html > file.ps
+ps2pdf file.ps > file.pdf
+convert -density 300 -trim file.pdf -quality 100 file.png

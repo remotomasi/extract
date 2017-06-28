@@ -1,0 +1,42 @@
+;Data;Orario;Temp;Humidity;Pressure;Geop500hPa;CloudInt;CloudCover;RainInt;RainRate;RainAcc;CAPE;LI;WindP;WindDir;WindI;DP;Fog;Foggy;
+;29/06/2017;ore 0;25;75;1010;5847.97;0;Sereno;0.0000;-;0.00;1084;-2.2;17;Sud (Ostro);Brezza tesa;20;5;-
+; ;ore 6;29;50;1010;5850.36;0;Sereno;0.0000;-;0.00;309;-0.5;9;Sud (Ostro);Brezza leggera;18;11;-
+; ;ore 12;36;25;1010;5864.91;20;Poco Nuvoloso;0.0000;-;0.00;57;-0.1;14;Sud (Ostro);Brezza tesa;13;23;-
+; ;ore 18;28;49;1009;5867.15;75;Molto Nuvoloso;0.0000;-;0.00;339;-1.7;19;Sud (Ostro);Brezza tesa;16;12;-
+;30/06/2017;ore 0;26;62;1009;5866.78;5;Sereno;0.0000;-;0.00;746;-4.4;25;Sud (Ostro);Vento moderato;18;8;-
+; ;ore 6;29;55;1009;5865.65;0;Sereno;0.0000;-;0.00;1293;-6.4;25;Sud (Ostro);Vento moderato;19;10;-
+; ;ore 12;38;24;1010;5881.93;0;Sereno;0.0000;-;0.00;269;-2.3;15;Sud-Ovest (Libeccio);Brezza tesa;14;24;-
+; ;ore 18;29;61;1010;5893.49;0;Sereno;0.0000;-;0.00;1121;-4.1;19;Sud (Ostro);Brezza tesa;21;8;-
+;01/07/2017;ore 0;25;77;1012;5903.72;0;Sereno;0.0000;-;0.00;642;-2.8;14;Sud-Est (Scirocco);Brezza tesa;21;4;Nebbia leggera
+; ;ore 6;29;60;1013;5906.90;0;Sereno;0.0000;-;0.00;1067;-4.7;12;Sud-Est (Scirocco);Brezza tesa;20;9;-
+; ;ore 12;38;29;1012;5920.76;0;Sereno;0.0000;-;0.00;742;-3.7;19;Sud (Ostro);Brezza tesa;17;21;-
+; ;ore 18;29;53;1010;5915.70;0;Sereno;0.0000;-;0.00;563;-3.7;20;Sud (Ostro);Vento moderato;18;11;-
+;02/07/2017;ore 0;26;61;1010;5904.05;0;Sereno;0.0000;-;0.00;259;-1.8;19;Sud (Ostro);Brezza tesa;18;8;-
+; ;ore 6;31;46;1010;5895.68;0;Sereno;0.0000;-;0.00;513;-2.9;11;Sud-Ovest (Libeccio);Brezza leggera;18;13;-
+; ;ore 12;34;42;1010;5898.75;0;Sereno;0.0000;-;0.00;1190;-5.3;16;Nord (Tramontana);Brezza tesa;19;15;-
+; ;ore 18;27;70;1009;5889.47;0;Sereno;0.0000;-;0.00;1135;-5.3;14;Nord (Tramontana);Brezza tesa;21;6;-
+;03/07/2017;ore 0;24;79;1009;5866.05;0;Sereno;0.0000;-;0.00;741;-4.7;18;Nord (Tramontana);Brezza tesa;20;4;Nebbia leggera
+; ;ore 6;28;47;1010;5829.61;4;Sereno;0.0000;-;0.00;0;0.2;22;Nord-Ovest (Maestrale);Vento moderato;16;12;-
+; ;ore 12;30;42;1009;5801.75;42;Nuvoloso;0.0000;-;0.00;0;0.7;33;Nord (Tramontana);Vento teso;16;14;-
+; ;ore 18;26;54;1009;5748.41;0;Sereno;0.0000;-;0.00;185;-1.6;30;Nord (Tramontana);Vento teso;16;10;-
+;;;24;61;1009;5748.00;0;Sereno;0.0000;-;0.00;0;1.4;30;Nord-Ovest (Maestrale);Vento teso;16;8;-
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
