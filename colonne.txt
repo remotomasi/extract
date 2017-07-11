@@ -1,1 +1,1 @@
-;Data;Orario;Temp;Humidity;Pressure;Geop500hPa;CloudInt;CloudCover;RainInt;RainRate;RainAcc;CAPE;LI;WindP;WindDir;WindI;DP;Fog;Foggy
+;Data;Orario;Temp;Humidity;Pressure;Geop500hPa;CloudInt;CloudCover;RainInt;RainRate;RainAcc;CAPE;LI;WindP;WindDir;WindI;DP;Fog;Foggy;Abs

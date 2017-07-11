@@ -1,21 +1,21 @@
-Sereno
-Sereno
-Poco Nuvoloso
-Molto Nuvoloso
-Sereno
-Sereno
-Sereno
-Sereno
-Sereno
-Sereno
-Sereno
-Sereno
-Sereno
-Sereno
-Sereno
-Sereno
-Sereno
-Sereno
-Nuvoloso
-Sereno
-Sereno
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/cloudy.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>
+<img src=icons/sun.png></img>

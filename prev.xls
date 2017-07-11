@@ -1,13 +1,13 @@
-;Data;Orario;Temp;Humidity;Pressure;Geop500hPa;CloudInt;CloudCover;RainInt;RainRate;RainAcc;CAPE;LI;WindP;WindDir;WindI;DP;Fog;Foggy;
-;29/06/2017;ore 0;25;75;1010;5847.97;0;Sereno;0.0000;-;0.00;1084;-2.2;17;Sud (Ostro);Brezza tesa;20;5;-
-; ;ore 6;29;50;1010;5850.36;0;Sereno;0.0000;-;0.00;309;-0.5;9;Sud (Ostro);Brezza leggera;18;11;-
-; ;ore 12;36;25;1010;5864.91;20;Poco Nuvoloso;0.0000;-;0.00;57;-0.1;14;Sud (Ostro);Brezza tesa;13;23;-
-; ;ore 18;28;49;1009;5867.15;75;Molto Nuvoloso;0.0000;-;0.00;339;-1.7;19;Sud (Ostro);Brezza tesa;16;12;-
-;30/06/2017;ore 0;26;62;1009;5866.78;5;Sereno;0.0000;-;0.00;746;-4.4;25;Sud (Ostro);Vento moderato;18;8;-
-; ;ore 6;29;55;1009;5865.65;0;Sereno;0.0000;-;0.00;1293;-6.4;25;Sud (Ostro);Vento moderato;19;10;-
-; ;ore 12;38;24;1010;5881.93;0;Sereno;0.0000;-;0.00;269;-2.3;15;Sud-Ovest (Libeccio);Brezza tesa;14;24;-
-; ;ore 18;29;61;1010;5893.49;0;Sereno;0.0000;-;0.00;1121;-4.1;19;Sud (Ostro);Brezza tesa;21;8;-
-;01/07/2017;ore 0;25;77;1012;5903.72;0;Sereno;0.0000;-;0.00;642;-2.8;14;Sud-Est (Scirocco);Brezza tesa;21;4;Nebbia leggera
-; ;ore 6;29;60;1013;5906.90;0;Sereno;0.0000;-;0.00;1067;-4.7;12;Sud-Est (Scirocco);Brezza tesa;20;9;-
-; ;ore 12;38;29;1012;5920.76;0;Sereno;0.0000;-;0.00;742;-3.7;19;Sud (Ostro);Brezza tesa;17;21;-
-; ;ore 18;29;53;1010;5915.70;0;Sereno;0.0000;-;0.00;563;-3.7;20;Sud (Ostro);Vento moderato;18;11;-
+;Data;Orario;Temp;Humidity;Pressure;Geop500hPa;CloudInt;CloudCover;RainInt;RainRate;RainAcc;CAPE;LI;WindP;WindDir;WindI;DP;Fog;Foggy;Abs;
+;12/07/2017;ore 0;30;36;1014;5889.85;0;<img src=icons/sun.png></img>;0.0000;-;0.00;0;2.3;6;<img src=icons/nw.png></img>;Brezza leggera;13;17;-;5.1
+; ;ore 6;38;17;1013;5899.10;0;<img src=icons/sun.png></img>;0.0000;-;0.00;0;4.2;10;<img src=icons/n.png></img>;Brezza leggera;9;29;-;5.0
+; ;ore 12;30;34;1013;5898.98;0;<img src=icons/sun.png></img>;0.0000;-;0.00;0;5.1;7;<img src=icons/s.png></img>;Brezza leggera;12;18;-;8.7
+; ;ore 18;24;44;1010;5889.62;0;<img src=icons/sun.png></img>;0.0000;-;0.00;0;8;7;<img src=icons/w.png></img>;Brezza leggera;11;13;-;8.8
+;13/07/2017;ore 0;30;35;1010;5872.17;0;<img src=icons/sun.png></img>;0.0000;-;0.00;0;6.3;16;<img src=icons/n.png></img>;Brezza tesa;13;17;-;9.8
+; ;ore 6;36;22;1010;5876.29;0;<img src=icons/sun.png></img>;0.0000;-;0.00;0;4.9;22;<img src=icons/n.png></img>;Vento moderato;11;25;-;8.5
+; ;ore 12;28;44;1009;5870.28;0;<img src=icons/sun.png></img>;0.0000;-;0.00;0;4.2;20;<img src=icons/n.png></img>;Vento moderato;15;13;-;6.3
+; ;ore 18;26;67;1008;5859.17;0;<img src=icons/sun.png></img>;0.0000;-;0.00;261;0.2;21;<img src=icons/nw.png></img>;Vento moderato;19;7;-;7.8
+;14/07/2017;ore 0;28;51;1009;5845.38;0;<img src=icons/sun.png></img>;0.0000;-;0.00;18;1.3;20;<img src=icons/n.png></img>;Vento moderato;17;11;-;9.0
+; ;ore 6;33;26;1009;5844.74;0;<img src=icons/sun.png></img>;0.0000;-;0.00;0;4.5;26;<img src=icons/n.png></img>;Vento moderato;11;22;-;8.8
+; ;ore 12;27;46;1009;5832.35;0;<img src=icons/sun.png></img>;0.0000;-;0.00;0;2;14;<img src=icons/n.png></img>;Brezza tesa;14;13;-;7.2
+; ;ore 18;24;61;1008;5813.81;0;<img src=icons/sun.png></img>;0.0000;-;0.00;0;0.5;15;<img src=icons/n.png></img>;Brezza tesa;16;8;-;5.0
