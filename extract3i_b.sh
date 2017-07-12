@@ -2,16 +2,9 @@
 
 # ********************************************************************************************************************
 # Creator: Remo Tomasi
-# extract v0.1.1 11-02-2016
-# extract v0.1.2 14-09-2016
-# extract v0.1.3 12-11-2016
-# extract v0.1.4 02-01-2017
-# extract v0.1.5 17-04-2017
-# extract v0.1.6 19-04-2017
-# extract v0.2.0 12-05-2017
-# extract v0.2.5 05-07-2017
-# extract v0.2.6 11-07-2017
+# extract v0.2.8 11-07-2017
 #
+# Examples of string request to send to query@saildocs.com
 # send GRIB:40.02N,40N,18.15E,18.17E|1,1|0,12,24,36,48,60,72,84,96,108,120|TMP,CAPE,PRESS,RH,APCP,HGT,WIND,LFTX,RAIN
 # send GRIB:40N,40N,18.2E,18.2E|1,1|0,6,12,18,24,30,36,42,48,54,60,66,72,78,84,90,96,102,108,114,120,126,132,138,144|TMP,CAPE,PRESS,RH,APCP,HGT,WIND,LFTX,RAIN,TCDC
 # send GFS:40.35,40.35N,18.15E,18.15E|1,1|0,6,12,18,24,30,36,42,48,54,60,66,72,78,84,90,96,102,108,114,120,126,132,138,144|TMP,CAPE,PRESS,RH,APCP,HGT,WIND,LFTX,RAIN,TCDC,ABSV
@@ -45,8 +38,8 @@ touch rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt
 
 echo -n ";" >> data.txt
 
-#echo '\n' | gawk '{printf "\n"}' > temp.txt
-./wgrib -s $1 | grep ":TMP:" | ./wgrib -i -text $1 -o out.txt	#sono in gradi Kelvin (occorre sottrarre 273)
+# Extraction of all datas from the GRIB file
+./wgrib -s $1 | grep ":TMP:" | ./wgrib -i -text $1 -o out.txt #sono in gradi Kelvin (occorre sottrarre 273)
 
 # in base all'orario di download del file GRIB stabilisco la data delle previsioni
 lastByteData=$(./wgrib -s $1 | cut -d':' -f3 | cut -d ' ' -f1 | head -23 | cut -d'=' -f2 | tail -c 3)
@@ -55,7 +48,7 @@ if [ $lastByteData -ne 18 ]
 else
   day=0
 fi
-#echo "ciao $day $lastByteData"
+
 date +%d/%m/%Y -d "+$day days" >> data.txt
 ((day++))
 echo -e " \n \n " >>  data.txt
@@ -70,11 +63,13 @@ date +%d/%m/%Y -d "+$day days" >> data.txt
 echo -e " \n \n " >>  data.txt
 date +%d/%m/%Y -d "+$day days" >> data.txt
 echo -e " \n \n " >>  data.txt
-#echo "ciao $day"
+
+# Insertion of DATE, TIME to temp.txt
 awk '{print $1,$2,$3,$4,$5}' OFS="|" data.txt > data.xls
 orario=$(./wgrib -s $1 | cut -d':' -f6 | cut -d ' ' -f1 | head -23)
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > temp.txt
-#echo ";" + $data ";" > temp.txt
+
+# Extraction of singular datas
 for i in $(cat temp.txt); do $(echo $data >> data.txt); done
 echo $orario | tr ' ' '\n' | head -n 21 > orario.txt
 for i in $(cat temp.txt); do $(echo ${i} | gawk '{printf "%.0f\n",$1 -273.15}' >> temp2.txt); done
@@ -112,78 +107,82 @@ for i in $(cat cloudCover.txt); do $(echo ${i} | gawk '{printf "%.0f\n",$1}' >> 
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | head -n 21 > abs.txt
 for i in $(cat abs.txt); do $(echo ${i} | gawk '{printf "%.1f\n",$1*100000}' >> abs2.txt); done
 
+# Manipulation of some datas
 paste uwind2.txt vwind2.txt | gawk '{print (sqrt($1*$1 + $2*$2)), $3}' | xargs printf '%.0f\n' >> wind2.txt                             # calcolo potenza del vento
 paste uwind2.txt vwind2.txt | gawk '{print (atan2($1,$2)*57.3+180), $3}' >> wind2Dir.txt                                                # calcolo direzione del vento in gradi sessagesimali
 paste rh2.txt temp2.txt | gawk '{print (sqrt(sqrt(sqrt($1 / 100)))*(112 + 0.9*$2)+0.1*$2-112), $3}' | xargs printf '%.0f\n' >> dp.txt   # calcolo potenza del vento
 paste temp2.txt dp.txt | gawk '{print ($1 - $2), $3}' | xargs printf '%.0f\n' >> fog.txt                                                # calcolo potenza del vento
 
-
+# Temperature
 for i in $(cat temp2.txt)
   do
     if (( $(echo "$i > -10" |bc -l) && $(echo "$i <= -5" |bc -l) ))
-      then echo -e "<p style=\"background-color: navy\">$i</p>">>temp3.txt                  #Nord (Tramontana)
+      then echo -e "<p style=\"background-color: navy\">$i</p>">>temp3.txt      #Nord (Tramontana)
     elif (( $(echo "$i > -5" |bc -l) && $(echo "$i <= 0" |bc -l) ))
-      then echo "<p style=\"background-color: blue\">$i</p>">>temp3.txt                    #Nord-Est (Grecale)
+      then echo "<p style=\"background-color: blue\">$i</p>">>temp3.txt         #Nord-Est (Grecale)
     elif (( $(echo "$i > 0" |bc -l) && $(echo "$i <= 5" |bc -l) ))
-      then echo "<p style=\"background-color: teal\">$i</p>">>temp3.txt                     #Est (Levante)
+      then echo "<p style=\"background-color: teal\">$i</p>">>temp3.txt         #Est (Levante)
     elif (( $(echo "$i > 5" |bc -l) && $(echo "$i <= 10" |bc -l) ))
-      then echo "<p style=\"background-color: aqua\">$i</p>">>temp3.txt                    #Sud-Est (Scirocco)
+      then echo "<p style=\"background-color: aqua\">$i</p>">>temp3.txt         #Sud-Est (Scirocco)
     elif (( $(echo "$i > 10" |bc -l) && $(echo "$i <= 15" |bc -l) ))
-      then echo "<p style=\"background-color: lime\">$i</p>">>temp3.txt                     #Sud (Ostro)
+      then echo "<p style=\"background-color: lime\">$i</p>">>temp3.txt         #Sud (Ostro)
     elif (( $(echo "$i > 15" |bc -l) && $(echo "$i <= 20" |bc -l) ))
-      then echo "<p style=\"background-color: yellow\">$i</p>">>temp3.txt                    #Sud-Ovest (Libeccio)
+      then echo "<p style=\"background-color: yellow\">$i</p>">>temp3.txt       #Sud-Ovest (Libeccio)
     elif (( $(echo "$i > 20" |bc -l) && $(echo "$i <= 25" |bc -l) ))
-      then echo "<p style=\"background-color: orange\">$i</p>">>temp3.txt                     #Ovest (Ponente)
+      then echo "<p style=\"background-color: orange\">$i</p>">>temp3.txt       #Ovest (Ponente)
     elif (( $(echo "$i > 25" |bc -l) && $(echo "$i <= 30" |bc -l) ))
-      then echo "<p style=\"background-color: red\">$i</p>">>temp3.txt                       #Ovest (Ponente)
+      then echo "<p style=\"background-color: red\">$i</p>">>temp3.txt          #Ovest (Ponente)
     elif (( $(echo "$i > 30" |bc -l) && $(echo "$i <= 35" |bc -l) ))
-      then echo "<p style=\"background-color: maroon\">$i</p>">>temp3.txt                       #Ovest (Ponente)
+      then echo "<p style=\"background-color: maroon\">$i</p>">>temp3.txt       #Ovest (Ponente)
     elif (( $(echo "$i > 35" |bc -l) && $(echo "$i <= 40" |bc -l) ))
-      then echo "<p style=\"background-color: fuchsia\">$i</p>">>temp3.txt                        #Ovest (Ponente)
+      then echo "<p style=\"background-color: fuchsia\">$i</p>">>temp3.txt      #Ovest (Ponente)
     elif (( $(echo "$i > 40" |bc -l) && $(echo "$i <= 45" |bc -l) ))
-      then echo "<p style=\"background-color: purple\">$i</p>">>temp3.txt                 #Nord-Ovest (Maestrale)
+      then echo "<p style=\"background-color: purple\">$i</p>">>temp3.txt       #Nord-Ovest (Maestrale)
     fi
 done
 
+# Humidity
 for i in $(cat rh2.txt)
   do
     if (( $(echo "$i >= 0" |bc -l) && $(echo "$i <= 20" |bc -l) ))
-      then echo -e "<p style=\"background-color: LightCyan\">$i</p>">>rh3.txt                  #Nord (Tramontana)
+      then echo -e "<p style=\"background-color: LightCyan\">$i</p>">>rh3.txt   #Nord (Tramontana)
     elif (( $(echo "$i > 20" |bc -l) && $(echo "$i <= 40" |bc -l) ))
-      then echo "<p style=\"background-color: Lavender\">$i</p>">>rh3.txt                    #Nord-Est (Grecale)
+      then echo "<p style=\"background-color: Lavender\">$i</p>">>rh3.txt       #Nord-Est (Grecale)
     elif (( $(echo "$i > 40" |bc -l) && $(echo "$i <= 60" |bc -l) ))
-      then echo "<p style=\"background-color: LightBlue\">$i</p>">>rh3.txt                     #Est (Levante)
+      then echo "<p style=\"background-color: LightBlue\">$i</p>">>rh3.txt      #Est (Levante)
     elif (( $(echo "$i > 60" |bc -l) && $(echo "$i <= 80" |bc -l) ))
-      then echo "<p style=\"background-color: DeepSkyBlue\">$i</p>">>rh3.txt                    #Sud-Est (Scirocco)
+      then echo "<p style=\"background-color: DeepSkyBlue\">$i</p>">>rh3.txt    #Sud-Est (Scirocco)
     elif (( $(echo "$i > 80" |bc -l) && $(echo "$i <= 100" |bc -l) ))
-      then echo "<p style=\"background-color: Blue\">$i</p>">>rh3.txt                 #Nord-Ovest (Maestrale)
+      then echo "<p style=\"background-color: Blue\">$i</p>">>rh3.txt           #Nord-Ovest (Maestrale)
     fi
 done
 
+# Wind direction
 rm wind3Dir.txt
 touch wind4Dir.txt
 
 for i in $(cat wind2Dir.txt)
   do
     if (( $(echo "$i > 335" |bc -l) || $(echo "$i <= 25" |bc -l) ))
-      then echo -e "<img src="icons/n.png"></img>">>wind3Dir.txt                  #Nord (Tramontana)
+      then echo -e "<img src="icons/n.png"></img>">>wind3Dir.txt                #Nord (Tramontana)
     elif (( $(echo "$i > 25" |bc -l) && $(echo "$i <= 65" |bc -l) ))
-      then echo "<img src="icons/ne.png"></img>">>wind3Dir.txt                    #Nord-Est (Grecale)
+      then echo "<img src="icons/ne.png"></img>">>wind3Dir.txt                  #Nord-Est (Grecale)
     elif (( $(echo "$i > 65" |bc -l) && $(echo "$i <= 115" |bc -l) ))
-      then echo "<img src="icons/e.png"></img>">>wind3Dir.txt                     #Est (Levante)
+      then echo "<img src="icons/e.png"></img>">>wind3Dir.txt                   #Est (Levante)
     elif (( $(echo "$i > 115" |bc -l) && $(echo "$i <= 155" |bc -l) ))
-      then echo "<img src="icons/se.png"></img>">>wind3Dir.txt                    #Sud-Est (Scirocco)
+      then echo "<img src="icons/se.png"></img>">>wind3Dir.txt                  #Sud-Est (Scirocco)
     elif (( $(echo "$i > 155" |bc -l) && $(echo "$i <= 205" |bc -l) ))
-      then echo "<img src="icons/s.png"></img>">>wind3Dir.txt                     #Sud (Ostro)
+      then echo "<img src="icons/s.png"></img>">>wind3Dir.txt                   #Sud (Ostro)
     elif (( $(echo "$i > 205" |bc -l) && $(echo "$i <= 245" |bc -l) ))
-      then echo "<img src="icons/sw.png"></img>">>wind3Dir.txt                    #Sud-Ovest (Libeccio)
+      then echo "<img src="icons/sw.png"></img>">>wind3Dir.txt                  #Sud-Ovest (Libeccio)
     elif (( $(echo "$i > 245" |bc -l) && $(echo "$i <= 295" |bc -l) ))
-      then echo "<img src="icons/w.png"></img>">>wind3Dir.txt                     #Ovest (Ponente)
+      then echo "<img src="icons/w.png"></img>">>wind3Dir.txt                   #Ovest (Ponente)
     elif (( $(echo "$i > 295" |bc -l) && $(echo "$i <= 335" |bc -l) ))
-      then echo "<img src="icons/nw.png"></img>">>wind3Dir.txt                    #Nord-Ovest (Maestrale)
+      then echo "<img src="icons/nw.png"></img>">>wind3Dir.txt                  #Nord-Ovest (Maestrale)
     fi
 done
 
+# Wind power
 rm wind4Dir.txt
 touch wind4Dir.txt
 
@@ -226,6 +225,7 @@ for i in $(cat wind2.txt)
     fi
 done
 
+# Cloud cover
 rm cloudCover3.txt
 touch cloudCover3.txt
 
@@ -246,6 +246,7 @@ for i in $(cat cloudCover.txt)
     fi
 done
 
+# Rain rate
 rm rainRate3.txt
 touch rainRate3.txt
 
@@ -266,6 +267,7 @@ for i in $(cat rainRate2.txt)
     fi
 done
 
+# Fog
 rm nebbia.txt
 touch nebbia.txt
 
@@ -282,6 +284,7 @@ for i in $(cat fog.txt)
     fi
 done
 
+# Union with columns
 paste -d';' colonne.txt data.txt orario2.txt temp3.txt rh3.txt pres2.txt geop5002.txt cloudCover2.txt cloudCover3.txt rainRate2.txt rainRate3.txt rainAcc2.txt cape2.txt li2.txt wind2.txt wind3Dir.txt wind4Dir.txt dp.txt fog.txt nebbia.txt abs2.txt> prev.csv
 
 # manipolo le prime due righe in modo da avere intestazione e righe di dati nell'ordine corretto
@@ -296,21 +299,9 @@ sed -i "1 i $riga1" prev.csv
 sed -i "2 i $riga2" prev.csv
 sed -i '3 d' prev.csv
 
-# tabs 2
-# INPUT=prev.csv
-# IFS=';'
-# [ ! -f $INPUT ] && { echo "$INPUT file not found"; exit 106; }
-# while read data temp hum uwind vwind press geop500 cloud rainRate rainAcc cape li wind windDir
-# do
-#   echo -e "$data $temp $hum $press $geop500 $cloud $rainRate $rainAcc $cape $li $windp $windDir"
-# done < $INPUT
-# IFS=$OLDIFS
-# ho eliminato $uwind $vwind
-
 # take only first 21 rows
 cat prev.csv | head -n 13 > tmp.txt
 # eliminate the first column contains ';' char
-#cut -d';' -f1-13 tmp.txt > prev.xls
 cut -d';' -f1-22 tmp.txt > prev.xls
 cut -d';' -f1,2,3,4,5,9,11,16,17,20 tmp.txt > prev2.xls
 sed -i 's/Temp/Temperatura (°C)/g' prev2.xls
@@ -323,22 +314,17 @@ sed -i 's/WindDir/Vento (direzione)/g' prev2.xls
 sed -i 's/WindI/Vento (intensita)/g' prev2.xls
 sed -i 's/Foggy/Nebbia (Intensita)/g' prev2.xls
 
-# remove temporary file
-#rm tmp.txt
-
-# conversioni nei vari formati
+# Conversion in various formats HTML-PNG
+# prev: complete datas
+# prev2: datas for all users
 ./conv2htm.sh prev.xls > prev.html
 sed -i 's/nowrap >/nowrap ><h2>/g' prev.html
 sed -i 's/td>/td><\/h2>/g' prev.html
-#sed -i 's/align/style="background-color:powderblue;" align/g' prev.html
-# html2ps prev.html > prev.ps
+
 phantomjs rasterize.js prev.html prev.png
-# convert -density 300 -colorspace RGB -alpha remove -trim prev.ps -quality 100 prev.png #-background yellow
 
 ./conv2htm.sh prev2.xls > prev2.html
 sed -i 's/nowrap >/nowrap ><h2>/g' prev2.html
 sed -i 's/td>/td><\/h2>/g' prev2.html
-#sed -i 's/align/style="background-color:powderblue;" align/g' prev2.html
-# html2ps prev2.html > prev2.ps
+
 phantomjs rasterize.js prev2.html prev2.png
-# convert -density 300 -colorspace RGB -alpha remove -trim prev2.ps -quality 100 prev2.png
