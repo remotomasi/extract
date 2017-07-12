@@ -37,10 +37,10 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-rm prev.csv data.txt orario.txt temp2.txt rh2.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
+rm prev.csv data.txt orario.txt temp2.txt temp3.txt rh2.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
 rm rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt dp.txt fog.txt abs.txt abs2.txt
 
-touch orario.txt data.txt temp2.txt rh2.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
+touch orario.txt data.txt temp2.txt temp3.txt rh2.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
 touch rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt
 
 echo -n ";" >> data.txt
@@ -117,6 +117,33 @@ paste uwind2.txt vwind2.txt | gawk '{print (atan2($1,$2)*57.3+180), $3}' >> wind
 paste rh2.txt temp2.txt | gawk '{print (sqrt(sqrt(sqrt($1 / 100)))*(112 + 0.9*$2)+0.1*$2-112), $3}' | xargs printf '%.0f\n' >> dp.txt   # calcolo potenza del vento
 paste temp2.txt dp.txt | gawk '{print ($1 - $2), $3}' | xargs printf '%.0f\n' >> fog.txt                                                # calcolo potenza del vento
 
+
+for i in $(cat temp2.txt)
+  do
+    if (( $(echo "$i > -10" |bc -l) && $(echo "$i <= -5" |bc -l) ))
+      then echo -e "<p style=\"background-color: navy\">$i</p>">>temp3.txt                  #Nord (Tramontana)
+    elif (( $(echo "$i > -5" |bc -l) && $(echo "$i <= 0" |bc -l) ))
+      then echo "<p style=\"background-color: blue\">$i</p>">>temp3.txt                    #Nord-Est (Grecale)
+    elif (( $(echo "$i > 0" |bc -l) && $(echo "$i <= 5" |bc -l) ))
+      then echo "<p style=\"background-color: teal\">$i</p>">>temp3.txt                     #Est (Levante)
+    elif (( $(echo "$i > 5" |bc -l) && $(echo "$i <= 10" |bc -l) ))
+      then echo "<p style=\"background-color: aqua\">$i</p>">>temp3.txt                    #Sud-Est (Scirocco)
+    elif (( $(echo "$i > 10" |bc -l) && $(echo "$i <= 15" |bc -l) ))
+      then echo "<p style=\"background-color: lime\">$i</p>">>temp3.txt                     #Sud (Ostro)
+    elif (( $(echo "$i > 15" |bc -l) && $(echo "$i <= 20" |bc -l) ))
+      then echo "<p style=\"background-color: yellow\">$i</p>">>temp3.txt                    #Sud-Ovest (Libeccio)
+    elif (( $(echo "$i > 20" |bc -l) && $(echo "$i <= 25" |bc -l) ))
+      then echo "<p style=\"background-color: orange\">$i</p>">>temp3.txt                     #Ovest (Ponente)
+    elif (( $(echo "$i > 25" |bc -l) && $(echo "$i <= 30" |bc -l) ))
+      then echo "<p style=\"background-color: red\">$i</p>">>temp3.txt                       #Ovest (Ponente)
+    elif (( $(echo "$i > 30" |bc -l) && $(echo "$i <= 35" |bc -l) ))
+      then echo "<p style=\"background-color: maroon\">$i</p>">>temp3.txt                       #Ovest (Ponente)
+    elif (( $(echo "$i > 35" |bc -l) && $(echo "$i <= 40" |bc -l) ))
+      then echo "<p style=\"background-color: fuchsia\">$i</p>">>temp3.txt                        #Ovest (Ponente)
+    elif (( $(echo "$i > 40" |bc -l) && $(echo "$i <= 45" |bc -l) ))
+      then echo "<p style=\"background-color: purple\">$i</p>">>temp3.txt                 #Nord-Ovest (Maestrale)
+    fi
+done
 
 rm wind3Dir.txt
 touch wind4Dir.txt
@@ -240,7 +267,7 @@ for i in $(cat fog.txt)
     fi
 done
 
-paste -d';' colonne.txt data.txt orario2.txt temp2.txt rh2.txt pres2.txt geop5002.txt cloudCover2.txt cloudCover3.txt rainRate2.txt rainRate3.txt rainAcc2.txt cape2.txt li2.txt wind2.txt wind3Dir.txt wind4Dir.txt dp.txt fog.txt nebbia.txt abs2.txt> prev.csv
+paste -d';' colonne.txt data.txt orario2.txt temp3.txt rh2.txt pres2.txt geop5002.txt cloudCover2.txt cloudCover3.txt rainRate2.txt rainRate3.txt rainAcc2.txt cape2.txt li2.txt wind2.txt wind3Dir.txt wind4Dir.txt dp.txt fog.txt nebbia.txt abs2.txt> prev.csv
 
 # manipolo le prime due righe in modo da avere intestazione e righe di dati nell'ordine corretto
 # (elimino il problema dell'intestazione e della prima riga posta allo stesso livello)
@@ -297,4 +324,5 @@ sed -i 's/nowrap >/nowrap ><h2>/g' prev2.html
 sed -i 's/td>/td><\/h2>/g' prev2.html
 #sed -i 's/align/style="background-color:powderblue;" align/g' prev2.html
 html2ps prev2.html > prev2.ps
-convert -density 300 -colorspace RGB -alpha remove -trim prev2.ps -quality 100 prev2.png
+phantomjs rasterize.js prev2.html prev2.png
+# convert -density 300 -colorspace RGB -alpha remove -trim prev2.ps -quality 100 prev2.png
