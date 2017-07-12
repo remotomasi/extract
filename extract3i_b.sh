@@ -316,13 +316,14 @@ sed -i 's/Foggy/Nebbia (Intensita)/g' prev2.xls
 sed -i 's/nowrap >/nowrap ><h2>/g' prev.html
 sed -i 's/td>/td><\/h2>/g' prev.html
 #sed -i 's/align/style="background-color:powderblue;" align/g' prev.html
-html2ps prev.html > prev.ps
-convert -density 300 -colorspace RGB -alpha remove -trim prev.ps -quality 100 prev.png #-background yellow
+# html2ps prev.html > prev.ps
+phantomjs rasterize.js prev.html prev.png
+# convert -density 300 -colorspace RGB -alpha remove -trim prev.ps -quality 100 prev.png #-background yellow
 
 ./conv2htm.sh prev2.xls > prev2.html
 sed -i 's/nowrap >/nowrap ><h2>/g' prev2.html
 sed -i 's/td>/td><\/h2>/g' prev2.html
 #sed -i 's/align/style="background-color:powderblue;" align/g' prev2.html
-html2ps prev2.html > prev2.ps
+# html2ps prev2.html > prev2.ps
 phantomjs rasterize.js prev2.html prev2.png
 # convert -density 300 -colorspace RGB -alpha remove -trim prev2.ps -quality 100 prev2.png
