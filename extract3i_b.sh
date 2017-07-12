@@ -37,10 +37,10 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-rm prev.csv data.txt orario.txt temp2.txt temp3.txt rh2.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
+rm prev.csv data.txt orario.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
 rm rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt dp.txt fog.txt abs.txt abs2.txt
 
-touch orario.txt data.txt temp2.txt temp3.txt rh2.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
+touch orario.txt data.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
 touch rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt
 
 echo -n ";" >> data.txt
@@ -142,6 +142,21 @@ for i in $(cat temp2.txt)
       then echo "<p style=\"background-color: fuchsia\">$i</p>">>temp3.txt                        #Ovest (Ponente)
     elif (( $(echo "$i > 40" |bc -l) && $(echo "$i <= 45" |bc -l) ))
       then echo "<p style=\"background-color: purple\">$i</p>">>temp3.txt                 #Nord-Ovest (Maestrale)
+    fi
+done
+
+for i in $(cat rh2.txt)
+  do
+    if (( $(echo "$i >= 0" |bc -l) && $(echo "$i <= 20" |bc -l) ))
+      then echo -e "<p style=\"background-color: LightCyan\">$i</p>">>rh3.txt                  #Nord (Tramontana)
+    elif (( $(echo "$i > 20" |bc -l) && $(echo "$i <= 40" |bc -l) ))
+      then echo "<p style=\"background-color: Lavender\">$i</p>">>rh3.txt                    #Nord-Est (Grecale)
+    elif (( $(echo "$i > 40" |bc -l) && $(echo "$i <= 60" |bc -l) ))
+      then echo "<p style=\"background-color: LightBlue\">$i</p>">>rh3.txt                     #Est (Levante)
+    elif (( $(echo "$i > 60" |bc -l) && $(echo "$i <= 80" |bc -l) ))
+      then echo "<p style=\"background-color: DeepSkyBlue\">$i</p>">>rh3.txt                    #Sud-Est (Scirocco)
+    elif (( $(echo "$i > 80" |bc -l) && $(echo "$i <= 100" |bc -l) ))
+      then echo "<p style=\"background-color: Blue\">$i</p>">>rh3.txt                 #Nord-Ovest (Maestrale)
     fi
 done
 
@@ -267,7 +282,7 @@ for i in $(cat fog.txt)
     fi
 done
 
-paste -d';' colonne.txt data.txt orario2.txt temp3.txt rh2.txt pres2.txt geop5002.txt cloudCover2.txt cloudCover3.txt rainRate2.txt rainRate3.txt rainAcc2.txt cape2.txt li2.txt wind2.txt wind3Dir.txt wind4Dir.txt dp.txt fog.txt nebbia.txt abs2.txt> prev.csv
+paste -d';' colonne.txt data.txt orario2.txt temp3.txt rh3.txt pres2.txt geop5002.txt cloudCover2.txt cloudCover3.txt rainRate2.txt rainRate3.txt rainAcc2.txt cape2.txt li2.txt wind2.txt wind3Dir.txt wind4Dir.txt dp.txt fog.txt nebbia.txt abs2.txt> prev.csv
 
 # manipolo le prime due righe in modo da avere intestazione e righe di dati nell'ordine corretto
 # (elimino il problema dell'intestazione e della prima riga posta allo stesso livello)
