@@ -2,7 +2,7 @@
 
 # ********************************************************************************************************************
 # Creator: Remo Tomasi
-# extract v0.2.8 11-07-2017
+# extract v0.2.9 11-07-2017 # added confort index
 #
 # Examples of string request to send to query@saildocs.com
 # send GRIB:40.02N,40N,18.15E,18.17E|1,1|0,12,24,36,48,60,72,84,96,108,120|TMP,CAPE,PRESS,RH,APCP,HGT,WIND,LFTX,RAIN
@@ -31,10 +31,10 @@ if [ $# -eq 0 ]; then
 fi
 
 rm prev.csv data.txt orario.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
-rm rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt dp.txt fog.txt abs.txt abs2.txt
+rm rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt dp.txt dp2.txt fog.txt abs.txt abs2.txt
 
 touch orario.txt data.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
-touch rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt
+touch rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt abs.txt abs2.txt
 
 echo -n ";" >> data.txt
 
@@ -42,12 +42,11 @@ echo -n ";" >> data.txt
 ./wgrib -s $1 | grep ":TMP:" | ./wgrib -i -text $1 -o out.txt #sono in gradi Kelvin (occorre sottrarre 273)
 
 # in base all'orario di download del file GRIB stabilisco la data delle previsioni
-# 0 -> partono dalla giornata odierna
 lastByteData=$(./wgrib -s $1 | cut -d':' -f3 | cut -d ' ' -f1 | head -23 | cut -d'=' -f2 | tail -c 2)
-if [ $lastByteData -lt 6 ]
-  then day=0
+if [ $lastByteData -lt 8 ]
+  then day=1
 else
-  day=1
+  day=0
 fi
 
 date +%d/%m/%Y -d "+$day days" >> data.txt
@@ -285,15 +284,37 @@ for i in $(cat fog.txt)
     fi
 done
 
+# Dew Point
+for i in $(cat dp.txt)
+  do
+    if (( $(echo "$i <= 10" |bc -l) ))
+      then echo -e "<p style=\"background-color: cian\">Secco</p>">>dp2.txt
+    elif (( $(echo "$i > 10" |bc -l) && $(echo "$i <= 12" |bc -l) ))
+      then echo "<p style=\"background-color: lightgreen\">Molto confortevole</p>">>dp2.txt
+    elif (( $(echo "$i > 12" |bc -l) && $(echo "$i <= 15" |bc -l) ))
+      then echo "<p style=\"background-color: green\">Confortevole</p>">>dp2.txt
+    elif (( $(echo "$i > 15" |bc -l) && $(echo "$i <= 18" |bc -l) ))
+      then echo "<p style=\"background-color: yellow\">Leggermente umido</p>">>dp2.txt
+    elif (( $(echo "$i > 18" |bc -l) && $(echo "$i <= 21" |bc -l) ))
+      then echo "<p style=\"background-color: orange\">Umido</p>">>dp2.txt
+    elif (( $(echo "$i > 21" |bc -l) && $(echo "$i <= 24" |bc -l) ))
+      then echo "<p style=\"background-color: #ff8000\">Molto umido</p>">>dp2.txt
+    elif (( $(echo "$i > 24" |bc -l) && $(echo "$i <= 26" |bc -l) ))
+      then echo "<p style=\"background-color: red\">Disagio</p>">>dp2.txt
+    elif (( $(echo "$i > 26" |bc -l) ))
+      then echo "<p style=\"background-color: maroon\">Aria opprimente</p>">>dp2.txt
+    fi
+done
+
 # Union with columns
-paste -d';' colonne.txt data.txt orario2.txt temp3.txt rh3.txt pres2.txt geop5002.txt cloudCover2.txt cloudCover3.txt rainRate2.txt rainRate3.txt rainAcc2.txt cape2.txt li2.txt wind2.txt wind3Dir.txt wind4Dir.txt dp.txt fog.txt nebbia.txt abs2.txt> prev.csv
+paste -d';' colonne.txt data.txt orario2.txt temp3.txt rh3.txt pres2.txt geop5002.txt cloudCover2.txt cloudCover3.txt rainRate2.txt rainRate3.txt rainAcc2.txt cape2.txt li2.txt wind2.txt wind3Dir.txt wind4Dir.txt dp.txt dp2.txt fog.txt nebbia.txt abs2.txt> prev.csv
 
 # manipolo le prime due righe in modo da avere intestazione e righe di dati nell'ordine corretto
 # (elimino il problema dell'intestazione e della prima riga posta allo stesso livello)
 # ho eliminato le colonne uwind2.txt vwind2.txt
 riga2=$(cat prev.csv | head -1)
-riga1=${riga2:0:137}
-riga2=${riga2:137:${#riga2}}
+riga1=${riga2:0:145}
+riga2=${riga2:145:${#riga2}}
 
 # inserisco le prime due righe e rimuovo le vecchie due righe che erano divenute la terza e la quarta (le elimino)
 sed -i "1 i $riga1" prev.csv
@@ -303,8 +324,8 @@ sed -i '3 d' prev.csv
 # take only first 21 rows
 cat prev.csv | head -n 13 > tmp.txt
 # eliminate the first column contains ';' char
-cut -d';' -f1-22 tmp.txt > prev.xls
-cut -d';' -f1,2,3,4,5,9,11,16,17,20 tmp.txt > prev2.xls
+cut -d';' -f1-23 tmp.txt > prev.xls
+cut -d';' -f1,2,3,4,5,9,11,16,17,19,21 tmp.txt > prev2.xls
 sed -i 's/Temp/Temperatura (°C)/g' prev2.xls
 sed -i 's/Humidity/Umidita (%)/g' prev2.xls
 sed -i 's/CloudCover/Nuvolosita/g' prev2.xls
@@ -322,10 +343,12 @@ sed -i 's/Foggy/Nebbia (Intensita)/g' prev2.xls
 sed -i 's/nowrap >/nowrap ><h2>/g' prev.html
 sed -i 's/td>/td><\/h2>/g' prev.html
 
-phantomjs rasterize.js prev.html prev.png
+now=$(./wgrib -s $1 | cut -d':' -f3 | cut -d ' ' -f1 | head -23 | cut -d'=' -f2 | tail -c 9)
+#echo "Filename : /nas/backup_$now.sql"
+phantomjs rasterize.js prev.html prev_$now.png
 
 ./conv2htm.sh prev2.xls > prev2.html
 sed -i 's/nowrap >/nowrap ><h2>/g' prev2.html
 sed -i 's/td>/td><\/h2>/g' prev2.html
 
-phantomjs rasterize.js prev2.html prev2.png
+phantomjs rasterize.js prev2.html prev2_$now.png
