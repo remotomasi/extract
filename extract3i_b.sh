@@ -288,7 +288,7 @@ done
 for i in $(cat dp.txt)
   do
     if (( $(echo "$i <= 10" |bc -l) ))
-      then echo -e "<p style=\"background-color: cian\">Secco</p>">>dp2.txt
+      then echo -e "<p style=\"background-color: LightBlue\">Secco</p>">>dp2.txt
     elif (( $(echo "$i > 10" |bc -l) && $(echo "$i <= 12" |bc -l) ))
       then echo "<p style=\"background-color: lightgreen\">Molto confortevole</p>">>dp2.txt
     elif (( $(echo "$i > 12" |bc -l) && $(echo "$i <= 15" |bc -l) ))
