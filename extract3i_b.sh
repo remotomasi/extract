@@ -42,8 +42,9 @@ echo -n ";" >> data.txt
 ./wgrib -s $1 | grep ":TMP:" | ./wgrib -i -text $1 -o out.txt #sono in gradi Kelvin (occorre sottrarre 273)
 
 # in base all'orario di download del file GRIB stabilisco la data delle previsioni
-lastByteData=$(./wgrib -s $1 | cut -d':' -f3 | cut -d ' ' -f1 | head -23 | cut -d'=' -f2 | tail -c 2)
-if [ $lastByteData -lt 8 ]
+HOUR=$(echo $1 | cut -c13-14)
+MIN=$(echo $1 | cut -c15-16)
+if [ $HOUR -ge 9 ] && [ $MIN -ge 30 ]
   then day=1
 else
   day=0
