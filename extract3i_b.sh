@@ -159,6 +159,31 @@ for i in $(cat rh2.txt)
 done
 
 # Wind direction
+rm wind5Dir.txt
+touch wind5Dir.txt
+
+for i in $(cat wind2Dir.txt)
+  do
+    if (( $(echo "$i > 335" |bc -l) || $(echo "$i <= 25" |bc -l) ))
+      then echo -e "N">>wind5Dir.txt                #North (Tramontana)
+    elif (( $(echo "$i > 25" |bc -l) && $(echo "$i <= 65" |bc -l) ))
+      then echo "NE">>wind5Dir.txt                  #North-East (Grecale)
+    elif (( $(echo "$i > 65" |bc -l) && $(echo "$i <= 115" |bc -l) ))
+      then echo "E">>wind5Dir.txt                   #East (Levante)
+    elif (( $(echo "$i > 115" |bc -l) && $(echo "$i <= 155" |bc -l) ))
+      then echo "SE">>wind5Dir.txt                  #South-East (Scirocco)
+    elif (( $(echo "$i > 155" |bc -l) && $(echo "$i <= 205" |bc -l) ))
+      then echo "S">>wind5Dir.txt                   #South (Ostro)
+    elif (( $(echo "$i > 205" |bc -l) && $(echo "$i <= 245" |bc -l) ))
+      then echo "SW">>wind5Dir.txt                  #South-West (Libeccio)
+    elif (( $(echo "$i > 245" |bc -l) && $(echo "$i <= 295" |bc -l) ))
+      then echo "W">>wind5Dir.txt                   #West (Ponente)
+    elif (( $(echo "$i > 295" |bc -l) && $(echo "$i <= 335" |bc -l) ))
+      then echo "NW">>wind5Dir.txt                  #North-West (Maestrale)
+    fi
+done
+
+# Wind direction icon
 rm wind3Dir.txt
 touch wind4Dir.txt
 
@@ -308,6 +333,7 @@ for i in $(cat dp.txt)
 done
 
 # Union with columns
+paste -d';' column.txt data.txt orario2.txt temp2.txt rh2.txt pres2.txt geop5002.txt cloudCover2.txt rainRate2.txt rainAcc2.txt cape2.txt li2.txt wind2.txt wind5Dir.txt dp.txt fog.txt abs2.txt> prevOrigin.csv
 paste -d';' colonne.txt data.txt orario2.txt temp3.txt rh3.txt pres2.txt geop5002.txt cloudCover2.txt cloudCover3.txt rainRate2.txt rainRate3.txt rainAcc2.txt cape2.txt li2.txt wind2.txt wind3Dir.txt wind4Dir.txt dp.txt dp2.txt fog.txt nebbia.txt abs2.txt> prev.csv
 
 # manipulation of the first two rows in a way to have heading and rows of datas in the correct order
@@ -317,13 +343,24 @@ riga2=$(cat prev.csv | head -1)
 riga1=${riga2:0:145}
 riga2=${riga2:145:${#riga2}}
 
+riga4=$(cat prevOrigin.csv | head -1)
+riga3=${riga4:0:106}
+riga4=${riga4:106:${#riga4}}
+
 # I insert the first two rows and delete the old two rows that were became the third and the fourth (I delete them)
 sed -i "1 i $riga1" prev.csv
 sed -i "2 i $riga2" prev.csv
 sed -i '3 d' prev.csv
 
+sed -i "1 i $riga3" prevOrigin.csv
+sed -i "2 i $riga4" prevOrigin.csv
+sed -i '3 d' prevOrigin.csv
+
 # take only first 21 rows
 cat prev.csv | head -n 13 > tmp.txt
+cat prevOrigin.csv | head -n 21 > tmpOrigin.txt
+cat tmpOrigin.txt > prevOrigin.csv
+
 # eliminated the first column contains ';' char
 cut -d';' -f1-23 tmp.txt > prev.xls
 cut -d';' -f1,2,3,4,5,9,11,16,17,19,21 tmp.txt > prev2.xls

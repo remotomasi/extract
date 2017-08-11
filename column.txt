@@ -1,0 +1,1 @@
+;Date;Time;Temp;Humidity;Pressure;Geop500hPa;CloudCover;RainRate;RainAcc;CAPE;LI;WindP;WindDir;DP;Fog;Abs
