@@ -2,7 +2,6 @@
 
 # ********************************************************************************************************************
 # Creator: Remo Tomasi
-# extract v0.2.9 11-07-2017 # added confort index
 #
 # Examples of string request to send to query@saildocs.com
 # send GRIB:40.02N,40N,18.15E,18.17E|1,1|0,12,24,36,48,60,72,84,96,108,120|TMP,CAPE,PRESS,RH,APCP,HGT,WIND,LFTX,RAIN
@@ -44,7 +43,7 @@ echo -n ";" >> data.txt
 # according to the downloading time of the GRIB file I estabilish the forecasts
 HOUR=$(echo $1 | cut -c13-14)
 MIN=$(echo $1 | cut -c15-16)
-if [ $HOUR -ge 9 ] && [ $MIN -ge 30 ]
+if [ $HOUR -ge 9 ] # && [ $MIN -ge 30 ] - to improve
   then day=1
 else
   day=0
@@ -300,11 +299,11 @@ touch nebbia.txt
 for i in $(cat fog.txt)
   do
     if (( $(echo "$i >= 3" | bc) )) && (( $(echo "$i < 5" | bc) ))
-      then  echo "<img src="icons/f2.png"></img>">>nebbia.txt
+      then  echo "<img src="icons/fog2.png"></img>">>nebbia.txt
     elif (( $(echo "$i >= 2" | bc) )) && (( $(echo "$i < 3" | bc) ))
-      then  echo "<img src="icons/f3.png"></img>">>nebbia.txt
+      then  echo "<img src="icons/fog3.png"></img>">>nebbia.txt
     elif (( $(echo "$i < 2" | bc) ))
-      then  echo "<img src="icons/f4.png"></img>">>nebbia.txt
+      then  echo "<img src="icons/fog4.png"></img>">>nebbia.txt
     elif (( $(echo "$i >= 5" | bc -l) ))
       then  echo "-">>nebbia.txt
     fi
