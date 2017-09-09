@@ -214,39 +214,39 @@ touch wind4Dir.txt
 for i in $(cat wind2.txt)
   do
     if (( $(echo "$i == 0" |bc -l) || $(echo "$i < 1" |bc -l) ))
-      then echo "Calma">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #DF0101\">Calma<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 1" |bc -l) && $(echo "$i <= 5" |bc -l) ))
-      then echo "Bava di vento">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #DF3A01\">Bava di vento<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 6" |bc -l) && $(echo "$i <= 11" |bc -l) ))
-      then echo "Brezza leggera">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #DF7401\">Brezza leggera<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 12" |bc -l) && $(echo "$i <= 19" |bc -l) ))
-      then echo "Brezza tesa">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #DBA901\">Brezza tesa<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 20" |bc -l) && $(echo "$i <= 28" |bc -l) ))
-      then echo "Vento moderato">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #D7DF01\">Vento moderato<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 29" |bc -l) && $(echo "$i <= 38" |bc -l) ))
-      then echo "Vento teso">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #A5DF00\">Vento teso<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 39" |bc -l) && $(echo "$i <= 49" |bc -l) ))
-      then echo "Vento fresco">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #3ADF00\">Vento fresco<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 50" |bc -l) && $(echo "$i <= 61" |bc -l) ))
-      then echo "Vento forte">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #01DF01\">Vento forte<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 62" |bc -l) && $(echo "$i <= 74" |bc -l) ))
-      then echo "Burrasca">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #01DFD7\">Burrasca<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 75" |bc -l) && $(echo "$i <= 88" |bc -l) ))
-      then echo "Burrasca forte">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #01A9DB\">Burrasca forte<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 89" |bc -l) && $(echo "$i <= 102" |bc -l) ))
-      then echo "Tempesta">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #0174DF\">Tempesta<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 103" |bc -l) && $(echo "$i <= 117" |bc -l) ))
-      then echo "Fortunale">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #013ADF\">Fortunale<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 135" |bc -l) && $(echo "$i <= 176" |bc -l) ))
-      then echo "Uragano categoria 1">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #0101DF\">Uragano categoria 1<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 177" |bc -l) && $(echo "$i <= 204" |bc -l) ))
-      then echo "Uragano categoria 2">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #3A01DF\">Uragano categoria 2<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 205" |bc -l) && $(echo "$i <= 241" |bc -l) ))
-      then echo "Uragano categoria 3">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #7401DF\">Uragano categoria 3<p>" >>wind4Dir.txt
     elif (( $(echo "$i > 242" |bc -l) && $(echo "$i <= 287" |bc -l) ))
-      then echo "Uragano categoria 4">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #A901DB\">Uragano categoria 4<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 288" |bc -l) ))
-      then echo "Uragano categoria 5">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #DF01D7\">Uragano categoria 5<p>" >>wind4Dir.txt
     fi
 done
 
