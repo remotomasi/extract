@@ -214,39 +214,39 @@ touch wind4Dir.txt
 for i in $(cat wind2.txt)
   do
     if (( $(echo "$i == 0" |bc -l) || $(echo "$i < 1" |bc -l) ))
-      then echo "Calma">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #ffffff\">Calma<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 1" |bc -l) && $(echo "$i <= 5" |bc -l) ))
-      then echo "Bava di vento">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #e6ffe6\">Bava di vento<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 6" |bc -l) && $(echo "$i <= 11" |bc -l) ))
-      then echo "Brezza leggera">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #ccffcc\">Brezza leggera<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 12" |bc -l) && $(echo "$i <= 19" |bc -l) ))
-      then echo "Brezza tesa">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #b3ffb3\">Brezza tesa<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 20" |bc -l) && $(echo "$i <= 28" |bc -l) ))
-      then echo "Vento moderato">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #99ff99\">Vento moderato<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 29" |bc -l) && $(echo "$i <= 38" |bc -l) ))
-      then echo "Vento teso">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #80ff80\">Vento teso<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 39" |bc -l) && $(echo "$i <= 49" |bc -l) ))
-      then echo "Vento fresco">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #66ff66\">Vento fresco<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 50" |bc -l) && $(echo "$i <= 61" |bc -l) ))
-      then echo "Vento forte">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #4dff4d\">Vento forte<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 62" |bc -l) && $(echo "$i <= 74" |bc -l) ))
-      then echo "Burrasca">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #33ff33\">Burrasca<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 75" |bc -l) && $(echo "$i <= 88" |bc -l) ))
-      then echo "Burrasca forte">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #1aff1a\">Burrasca forte<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 89" |bc -l) && $(echo "$i <= 102" |bc -l) ))
-      then echo "Tempesta">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #00ff00\">Tempesta<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 103" |bc -l) && $(echo "$i <= 117" |bc -l) ))
-      then echo "Fortunale">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #00e600\">Fortunale<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 135" |bc -l) && $(echo "$i <= 176" |bc -l) ))
-      then echo "Uragano categoria 1">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #00cc00\">Uragano categoria 1<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 177" |bc -l) && $(echo "$i <= 204" |bc -l) ))
-      then echo "Uragano categoria 2">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #00b300\">Uragano categoria 2<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 205" |bc -l) && $(echo "$i <= 241" |bc -l) ))
-      then echo "Uragano categoria 3">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #009900\">Uragano categoria 3<p>" >>wind4Dir.txt
     elif (( $(echo "$i > 242" |bc -l) && $(echo "$i <= 287" |bc -l) ))
-      then echo "Uragano categoria 4">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #008000\">Uragano categoria 4<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 288" |bc -l) ))
-      then echo "Uragano categoria 5">>wind4Dir.txt
+      then echo -e "<p style=\"background-color: #006600\">Uragano categoria 5<p>" >>wind4Dir.txt
     fi
 done
 
@@ -315,7 +315,7 @@ for i in $(cat dp.txt)
     if (( $(echo "$i <= 10" |bc -l) ))
       then echo -e "<p style=\"background-color: LightBlue\">Secco</p>">>dp2.txt
     elif (( $(echo "$i > 10" |bc -l) && $(echo "$i <= 12" |bc -l) ))
-      then echo "<p style=\"background-color: lightgreen\">Molto confortevole</p>">>dp2.txt
+      then echo "<p style=\"background-color: #01A9DB\">Molto confortevole</p>">>dp2.txt
     elif (( $(echo "$i > 12" |bc -l) && $(echo "$i <= 15" |bc -l) ))
       then echo "<p style=\"background-color: green\">Confortevole</p>">>dp2.txt
     elif (( $(echo "$i > 15" |bc -l) && $(echo "$i <= 18" |bc -l) ))
@@ -384,10 +384,10 @@ sed -i 's/nowrap >/nowrap ><h2>/g' prev.html
 sed -i 's/td>/td><\/h2>/g' prev.html
 
 # convertion in PNG format
-phantomjs rasterize.js prev.html prev_$now.png
+sudo xvfb-run --server-args="-screen 0, 1024x768x24" ./webkit2png.py -o prev_$now.png prev.html
 
 ./conv2htm.sh prev2.xls > prev2.html
 sed -i 's/nowrap >/nowrap ><h2>/g' prev2.html
 sed -i 's/td>/td><\/h2>/g' prev2.html
 
-phantomjs rasterize.js prev2.html prev2_$now.png
+sudo xvfb-run --server-args="-screen 0, 1024x768x24" ./webkit2png.py -o prev2_$now.png prev2.html
