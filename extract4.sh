@@ -376,18 +376,18 @@ sed -i 's/Foggy/Nebbia (Intensita)/g' prev2.xls
 sed -i 's/nowrap >/nowrap ><h2>/g' prev.html
 sed -i 's/td>/td><\/h2>/g' prev.html
 
+mkdir datas images
+
 # convertion in PNG format
-# sudo xvfb-run --server-args="-screen 0, 1024x768x24" ./webkit2png.py -o prev_$now.png prev.html
 cutycapt --url=file://$PWD/prev.html --out=images/prev_$now.png
 
 ./conv2htm.sh prev2.xls > prev2.html
 sed -i 's/nowrap >/nowrap ><h2>/g' prev2.html
 sed -i 's/td>/td><\/h2>/g' prev2.html
 
-# sudo xvfb-run --server-args="-screen 0, 1024x768x24" ./webkit2png.py -o prev2_$now.png prev2.html
 cutycapt --url=file://$PWD/prev2.html --out=images/prev2_$now.png
 
-mkdir datas images
+# move files to datas and images folders
 mv prevOrigin.csv out.txt data.xls tmpOrigin.txt tmp.txt prevOrigin_$now.csv prev.xls prev2.xls prev.html prev2.html datas
 
 # remove created files
