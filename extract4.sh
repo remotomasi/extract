@@ -29,9 +29,6 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-rm prev.csv data.txt orario.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
-rm rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt dp.txt dp2.txt fog.txt abs.txt abs2.txt
-
 touch orario.txt data.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt vwind2.txt pres.txt pres2.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt
 touch rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt abs.txt abs2.txt
 
@@ -158,7 +155,6 @@ for i in $(cat rh2.txt)
 done
 
 # Wind direction
-rm wind5Dir.txt
 touch wind5Dir.txt
 
 for i in $(cat wind2Dir.txt)
@@ -214,7 +210,6 @@ touch wind4Dir.txt
 for i in $(cat wind2.txt)
   do
     if (( $(echo "$i == 0" |bc -l) || $(echo "$i < 1" |bc -l) ))
-<<<<<<< HEAD
       then echo -e "<p style=\"background-color: #ffffff\">Calma<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 1" |bc -l) && $(echo "$i <= 5" |bc -l) ))
       then echo -e "<p style=\"background-color: #e6ffe6\">Bava di vento<p>" >>wind4Dir.txt
@@ -248,46 +243,10 @@ for i in $(cat wind2.txt)
       then echo -e "<p style=\"background-color: #008000\">Uragano categoria 4<p>" >>wind4Dir.txt
     elif (( $(echo "$i >= 288" |bc -l) ))
       then echo -e "<p style=\"background-color: #006600\">Uragano categoria 5<p>" >>wind4Dir.txt
-=======
-      then echo -e "<p style=\"background-color: #DF0101\">Calma<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 1" |bc -l) && $(echo "$i <= 5" |bc -l) ))
-      then echo -e "<p style=\"background-color: #DF3A01\">Bava di vento<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 6" |bc -l) && $(echo "$i <= 11" |bc -l) ))
-      then echo -e "<p style=\"background-color: #DF7401\">Brezza leggera<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 12" |bc -l) && $(echo "$i <= 19" |bc -l) ))
-      then echo -e "<p style=\"background-color: #DBA901\">Brezza tesa<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 20" |bc -l) && $(echo "$i <= 28" |bc -l) ))
-      then echo -e "<p style=\"background-color: #D7DF01\">Vento moderato<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 29" |bc -l) && $(echo "$i <= 38" |bc -l) ))
-      then echo -e "<p style=\"background-color: #A5DF00\">Vento teso<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 39" |bc -l) && $(echo "$i <= 49" |bc -l) ))
-      then echo -e "<p style=\"background-color: #3ADF00\">Vento fresco<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 50" |bc -l) && $(echo "$i <= 61" |bc -l) ))
-      then echo -e "<p style=\"background-color: #01DF01\">Vento forte<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 62" |bc -l) && $(echo "$i <= 74" |bc -l) ))
-      then echo -e "<p style=\"background-color: #01DFD7\">Burrasca<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 75" |bc -l) && $(echo "$i <= 88" |bc -l) ))
-      then echo -e "<p style=\"background-color: #01A9DB\">Burrasca forte<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 89" |bc -l) && $(echo "$i <= 102" |bc -l) ))
-      then echo -e "<p style=\"background-color: #0174DF\">Tempesta<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 103" |bc -l) && $(echo "$i <= 117" |bc -l) ))
-      then echo -e "<p style=\"background-color: #013ADF\">Fortunale<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 135" |bc -l) && $(echo "$i <= 176" |bc -l) ))
-      then echo -e "<p style=\"background-color: #0101DF\">Uragano categoria 1<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 177" |bc -l) && $(echo "$i <= 204" |bc -l) ))
-      then echo -e "<p style=\"background-color: #3A01DF\">Uragano categoria 2<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 205" |bc -l) && $(echo "$i <= 241" |bc -l) ))
-      then echo -e "<p style=\"background-color: #7401DF\">Uragano categoria 3<p>" >>wind4Dir.txt
-    elif (( $(echo "$i > 242" |bc -l) && $(echo "$i <= 287" |bc -l) ))
-      then echo -e "<p style=\"background-color: #A901DB\">Uragano categoria 4<p>" >>wind4Dir.txt
-    elif (( $(echo "$i >= 288" |bc -l) ))
-      then echo -e "<p style=\"background-color: #DF01D7\">Uragano categoria 5<p>" >>wind4Dir.txt
->>>>>>> 8c95023d81347adc71bf06a501b6504a3da7d652
     fi
 done
 
 # Cloud cover
-rm cloudCover3.txt
 touch cloudCover3.txt
 
 for i in $(cat cloudCover.txt)
@@ -308,7 +267,6 @@ for i in $(cat cloudCover.txt)
 done
 
 # Rain rate
-rm rainRate3.txt
 touch rainRate3.txt
 
 for i in $(cat rainRate2.txt)
@@ -329,7 +287,6 @@ for i in $(cat rainRate2.txt)
 done
 
 # Fog
-rm nebbia.txt
 touch nebbia.txt
 
 for i in $(cat fog.txt)
@@ -420,10 +377,20 @@ sed -i 's/nowrap >/nowrap ><h2>/g' prev.html
 sed -i 's/td>/td><\/h2>/g' prev.html
 
 # convertion in PNG format
-sudo xvfb-run --server-args="-screen 0, 1024x768x24" ./webkit2png.py -o prev_$now.png prev.html
+# sudo xvfb-run --server-args="-screen 0, 1024x768x24" ./webkit2png.py -o prev_$now.png prev.html
+cutycapt --url=file://$PWD/prev.html --out=images/prev_$now.png
 
 ./conv2htm.sh prev2.xls > prev2.html
 sed -i 's/nowrap >/nowrap ><h2>/g' prev2.html
 sed -i 's/td>/td><\/h2>/g' prev2.html
 
-sudo xvfb-run --server-args="-screen 0, 1024x768x24" ./webkit2png.py -o prev2_$now.png prev2.html
+# sudo xvfb-run --server-args="-screen 0, 1024x768x24" ./webkit2png.py -o prev2_$now.png prev2.html
+cutycapt --url=file://$PWD/prev2.html --out=images/prev2_$now.png
+
+mv prevOrigin.csv out.txt data.xls tmpOrigin.txt tmp.txt prevOrigin_$now.csv prev.xls prev2.xls prev.html prev2.html datas
+
+# remove created files
+rm prev.csv data.txt orario.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt vwind2.txt pres.txt pres2.txt \
+rainAcc.txt li.txt geop500.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt temp.txt \
+cape.txt rainRate.txt rh.txt uwind.txt vwind.txt wind4Dir.txt rainRate3.txt nebbia.txt cloudCover3.txt \
+rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt dp.txt dp2.txt fog.txt abs.txt abs2.txt wind5Dir.txt
