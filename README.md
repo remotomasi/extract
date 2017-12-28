@@ -5,10 +5,11 @@
 
 ## Requires
 * bash 
-* phantomjs
+* sudo apt-get install python-qt4 libqtwebkit4 python-pip xvfb
+* sudo apt-get install cutycapt
 
 ## Command-Line usage
-$ ./extract3i_b.sh *file.grb*
+$ ./extract4.sh *file.grb*
 
 ## Require a grib file through the use of an email
 * Create a new message
