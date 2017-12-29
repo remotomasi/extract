@@ -381,13 +381,13 @@ if [ ! -d "DATAS" ]; then mkdir DATAS; fi
 if [ ! -d "IMAGES" ]; then mkdir IMAGES; fi
 
 # convertion in PNG format
-cutycapt --url=file://$PWD/prev.html --out=IMAGES/prev_$now.png
+xvfb-run --server-args="-screen 0, 1024x768x24" cutycapt --url=file://$PWD/prev.html --out=IMAGES/prev_$now.png
 
 ./conv2htm.sh prev2.xls > prev2.html
 sed -i 's/nowrap >/nowrap ><h2>/g' prev2.html
 sed -i 's/td>/td><\/h2>/g' prev2.html
 
-cutycapt --url=file://$PWD/prev2.html --out=IMAGES/prev2_$now.png
+xvfb-run --server-args="-screen 0, 1024x768x24" cutycapt --url=file://$PWD/prev2.html --out=IMAGES/prev2_$now.png
 
 # move files to datas and images folders
 mv prevOrigin.csv out.txt data.xls tmpOrigin.txt tmp.txt prevOrigin_$now.csv prev.xls prev2.xls prev.html prev2.html DATAS
