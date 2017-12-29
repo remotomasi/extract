@@ -376,19 +376,21 @@ sed -i 's/Foggy/Nebbia (Intensita)/g' prev2.xls
 sed -i 's/nowrap >/nowrap ><h2>/g' prev.html
 sed -i 's/td>/td><\/h2>/g' prev.html
 
-mkdir datas images
+# test if directories DATAS and IMAGES don't exist and create them
+if [ ! -d "DATAS" ]; then mkdir DATAS; fi
+if [ ! -d "IMAGES" ]; then mkdir IMAGES; fi
 
 # convertion in PNG format
-cutycapt --url=file://$PWD/prev.html --out=images/prev_$now.png
+cutycapt --url=file://$PWD/prev.html --out=IMAGES/prev_$now.png
 
 ./conv2htm.sh prev2.xls > prev2.html
 sed -i 's/nowrap >/nowrap ><h2>/g' prev2.html
 sed -i 's/td>/td><\/h2>/g' prev2.html
 
-cutycapt --url=file://$PWD/prev2.html --out=images/prev2_$now.png
+cutycapt --url=file://$PWD/prev2.html --out=IMAGES/prev2_$now.png
 
 # move files to datas and images folders
-mv prevOrigin.csv out.txt data.xls tmpOrigin.txt tmp.txt prevOrigin_$now.csv prev.xls prev2.xls prev.html prev2.html datas
+mv prevOrigin.csv out.txt data.xls tmpOrigin.txt tmp.txt prevOrigin_$now.csv prev.xls prev2.xls prev.html prev2.html DATAS
 
 # remove created files
 rm prev.csv data.txt orario.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt vwind2.txt pres.txt pres2.txt \
