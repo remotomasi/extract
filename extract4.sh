@@ -38,9 +38,8 @@ echo -n ";" >> data.txt
 ./wgrib -s $1 | grep ":TMP:" | ./wgrib -i -text $1 -o out.txt # sono in gradi Kelvin (occorre sottrarre 273)
 
 # according to the downloading time of the GRIB file I estabilish the forecasts
-HOUR=$(echo $1 | cut -c13-14)
-MIN=$(echo $1 | cut -c15-16)
-if [ $HOUR -ge 9 ] # && [ $MIN -ge 30 ] - to improve
+HOUR=$(./wgrib -s $1 | head -1 | cut -c13-14) # obtain hour of the run from the GRIB file
+if [ $HOUR = "00" ] || [ $HOUR = "06" ]       # to know which is the starting day
   then day=1
 else
   day=0
@@ -397,3 +396,5 @@ rm prev.csv data.txt orario.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt v
 rainAcc.txt li.txt geop500.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt temp.txt \
 cape.txt rainRate.txt rh.txt uwind.txt vwind.txt wind4Dir.txt rainRate3.txt nebbia.txt cloudCover3.txt \
 rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt dp.txt dp2.txt fog.txt abs.txt abs2.txt wind5Dir.txt
+
+echo $HOUR
