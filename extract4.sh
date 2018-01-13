@@ -396,8 +396,3 @@ rm prev.csv data.txt orario.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt v
 rainAcc.txt li.txt geop500.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt temp.txt \
 cape.txt rainRate.txt rh.txt uwind.txt vwind.txt wind4Dir.txt rainRate3.txt nebbia.txt cloudCover3.txt \
 rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt dp.txt dp2.txt fog.txt abs.txt abs2.txt wind5Dir.txt
-<<<<<<< HEAD
-
-echo $HOUR
-=======
->>>>>>> acce54b87326fe14e244e8b289ba8a7d909f59ca
