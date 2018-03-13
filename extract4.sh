@@ -39,7 +39,7 @@ echo -n ";" >> data.txt
 
 # according to the downloading time of the GRIB file I estabilish the forecasts
 HOUR=$(./wgrib -s $1 | head -1 | cut -c13-14) # obtain hour of the run from the GRIB file
-if [ $HOUR = "00" ] || [ $HOUR = "06" ] || [ $HOUR = "12" ]                     # to know which is the starting day
+if [ $HOUR = "06" ] || [ $HOUR = "12" ]                     # to know which is the starting day
   then day=1
 else
   day=0
