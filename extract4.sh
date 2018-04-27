@@ -79,7 +79,7 @@ for i in $(cat pres.txt); do $(echo ${i} | gawk '{printf "%.0f\n",$1/100}' >> pr
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > rh.txt
 for i in $(cat rh.txt); do $(echo ${i} | gawk '{printf "%.0f\n",$1}' >> rh2.txt); done
 ./wgrib -s $1 | grep ":APCP:" | ./wgrib -i -text $1 -o out.txt	# mm of accumulated rain
-cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | head -n 21 > rainAcc.txt
+cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | head -n 24 | tail -n 21 > rainAcc.txt
 for i in $(cat rainAcc.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1}' >> rainAcc2.txt); done
 ./wgrib -s $1 | grep ":HGT:" | ./wgrib -i -text $1 -o out.txt
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > geop500.txt
@@ -94,7 +94,7 @@ for i in $(cat vwind.txt); do $(echo ${i} | gawk '{printf "%.2f\n",$1*3.6}' >> v
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > li.txt
 for i in $(cat li.txt); do $(echo ${i} >> li2.txt); done
 ./wgrib -s $1 | grep ":PRATE:" | ./wgrib -i -text $1 -o out.txt	# it refers to the gust
-cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | head -n 21 > rainRate.txt
+cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | head -n 24 | tail -n 21 > rainRate.txt
 for i in $(cat rainRate.txt); do $(echo ${i} | gawk '{printf "%.4f\n",$1*3600}' >> rainRate2.txt); done # mm/h
 ./wgrib -s $1 | grep ":TCDC:" | ./wgrib -i -text $1 -o out.txt
 cat out.txt | grep -A1 "361 1" | grep -v "361 1" | grep -ve '--' | tail -n 21 > cloudCover.txt
@@ -393,6 +393,7 @@ mv prevOrigin.csv out.txt data.xls tmpOrigin.txt tmp.txt prevOrigin_$now.csv pre
 
 # remove created files
 rm prev.csv data.txt orario.txt temp2.txt temp3.txt rh2.txt rh3.txt uwind2.txt vwind2.txt pres.txt pres2.txt \
-rainAcc.txt li.txt geop500.txt geop5002.txt cloudCover.txt cloudCover2.txt rainAcc2.txt cape2.txt temp.txt \
-cape.txt rainRate.txt rh.txt uwind.txt vwind.txt wind4Dir.txt rainRate3.txt nebbia.txt cloudCover3.txt \
-rainRate2.txt li2.txt wind2.txt wind2Dir.txt wind3Dir.txt dp.txt dp2.txt fog.txt abs.txt abs2.txt wind5Dir.txt
+li.txt geop500.txt geop5002.txt cloudCover.txt cloudCover2.txt cape2.txt temp.txt \
+cape.txt rh.txt uwind.txt vwind.txt wind4Dir.txt nebbia.txt cloudCover3.txt \
+rainAcc.txt rainAcc2.txt rainRate.txt rainRate3.txt rainRate2.txt \
+li2.txt wind2.txt wind2Dir.txt wind3Dir.txt dp.txt dp2.txt fog.txt abs.txt abs2.txt wind5Dir.txt
