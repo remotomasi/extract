@@ -41,8 +41,8 @@ echo -n ";" >> data.txt
 HOUR=$(./wgrib -s $1 | head -1 | cut -c13-14) # obtain hour of the run from the GRIB file
 if [ $HOUR = "00" ] || [ $HOUR = "06" ] || [ $HOUR = "12" ]                     # to know which is the starting day
   then day=1
-else
-  day=0
+elif [ $HOUR = "18" ]
+  then day=0
 fi
 
 date +%d/%m/%Y -d "+$day days" >> data.txt
