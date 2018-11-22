@@ -351,7 +351,7 @@ sed -i "2 i $riga4" prevOrigin.csv
 sed -i '3 d' prevOrigin.csv
 
 # take only first 21 rows
-cat prev.csv | head -n 13 > tmp.txt
+cat prev.csv | head -n 17 > tmp.txt
 cat prevOrigin.csv | head -n 21 > tmpOrigin.txt
 cat tmpOrigin.txt > prevOrigin_$now.csv
 
